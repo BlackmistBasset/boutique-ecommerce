@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Link, Routes } from 'react-router-dom';
-import { Products } from './pages/Products';
+import { Products } from './modules/products/Products';
 import { Login } from './pages/Login';
 import { Cart } from './pages/Cart';
 

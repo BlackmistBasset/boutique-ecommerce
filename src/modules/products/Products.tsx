@@ -1,14 +1,12 @@
-import { useFetch } from '../hooks/useFetch';
+import { useFetch } from '../../hooks/useFetch';
 import { Container } from '@mui/material';
 
-import { Product } from '../components/Product';
-import { ProductType } from '../types/products';
+import { Product } from '../../components/Product';
+import { ProductType } from '../../types/products';
+import { useGetProducts } from './Products.api';
 
 export const Products = () => {
-  const { response, error, loading } = useFetch({
-    method: 'GET',
-    url: `/products`
-  });
+  const { response, error, loading } = useGetProducts();
 
   return (
     <>
