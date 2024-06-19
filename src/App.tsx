@@ -1,33 +1,30 @@
-import { BrowserRouter, Route, Link, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+
 import { Products } from './pages/Products';
 import { Login } from './pages/Login';
 import { Cart } from './pages/Cart';
+import { Orders } from './pages/Orders';
 
-import { Typography } from '@mui/material';
+import { Navbar } from './components/Navbar';
+
+import { CssBaseline } from '@mui/material';
 export const App = () => {
   return (
     <BrowserRouter>
-      <div>
-        <Typography variant="h5" sx={{ marginBlock: '30px' }}>
-          Boutique avaiable products
-        </Typography>
-        {/* <nav>
-          <ul>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/products">Products</Link>
-            </li>
-          </ul>
-        </nav>*/}
-      </div>
-      <Routes>
-        <Route path="/" element={<Products />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/cart" element={<Cart />} />
-      </Routes>
+      <AuthProvider>
+        <CssBaseline />
+
+        <Navbar />
+
+        <Routes>
+          <Route path="/" element={<Products />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/orders" element={<Orders />} />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 };
