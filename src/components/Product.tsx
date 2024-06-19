@@ -6,12 +6,36 @@ import {
   CardContent,
   CardActions,
   Card,
-  InputAdornment
+  InputAdornment,
+  IconButton
 } from '@mui/material';
+import { useState, MouseEvent } from 'react';
 
 import { PiLessThanBold, PiGreaterThanBold } from 'react-icons/pi';
 import { ProductType } from '../types/products';
+
 export const Product = ({ image, price, stock, name, description }: ProductType) => {
+  const [quantity, setQuantity] = useState<number | ''>(1);
+
+  const handleAddQuantity: (event: MouseEvent<HTMLButtonElement>) => void = (event) => {
+    if (typeof quantity === 'number') {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const handleRemoveQuantity: (event: MouseEvent<HTMLButtonElement>) => void = (event) => {
+    if (typeof quantity === 'number') {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
+    if (newValue === '' || (!isNaN(Number(newValue)) && Number(newValue) >= 1 && Number(newValue) <= stock)) {
+      setQuantity(newValue === '' ? '' : Number(newValue));
+    }
+  };
+
   return (
     <Card sx={{ maxWidth: 345, display: 'grid', gridTemplateRows: 'subgrid', gridRow: 'span 4', gap: '0px' }}>
       <CardMedia component="img" alt="product image" image={image} sx={{ maxHeight: '200px', objectFit: 'contain' }} />
@@ -33,34 +57,53 @@ export const Product = ({ image, price, stock, name, description }: ProductType)
         <TextField
           variant="outlined"
           size="small"
-          defaultValue={1}
-          fullWidth
+          value={quantity === '' ? '' : Number(quantity)}
+          onChange={handleQuantityChange}
+          type="number"
           InputProps={{
             startAdornment: (
               <InputAdornment position="start" sx={{ cursor: 'pointer' }}>
-                <PiLessThanBold />
+                <IconButton
+                  onClick={handleRemoveQuantity}
+                  disabled={typeof quantity === 'number' && quantity <= 1}
+                  size="small"
+                  sx={{ width: '25px' }}
+                >
+                  <PiLessThanBold />
+                </IconButton>
               </InputAdornment>
             ),
             endAdornment: (
               <InputAdornment position="end" sx={{ cursor: 'pointer' }}>
-                <PiGreaterThanBold />
+                <IconButton
+                  onClick={handleAddQuantity}
+                  disabled={(typeof quantity === 'number' && quantity >= 99) || quantity === stock}
+                  size="small"
+                  sx={{ width: '25px' }}
+                >
+                  <PiGreaterThanBold />
+                </IconButton>
               </InputAdornment>
             ),
             sx: {
-              width: '100px',
+              width: '130px',
               mx: 'auto',
               '& .MuiInputBase-input': {
-                textAlign: 'center'
+                textAlign: 'center',
+                '&::-webkit-outer-spin-button': {
+                  display: 'none'
+                },
+                '&::-webkit-inner-spin-button': {
+                  display: 'none'
+                },
+                MozAppearance: 'textfield'
               }
             }
           }}
-          inputProps={{
-            maxLength: 2 // Set the maximum length here
-          }}
         />
       </CardActions>
-      <Button variant="contained" sx={{ display: 'block', mx: 'auto', mb: '20px' }}>
-        Buy
+      <Button disabled={quantity === ''} variant="contained" sx={{ display: 'block', mx: 'auto', mb: '20px' }}>
+        Add to cart
       </Button>
     </Card>
   );
