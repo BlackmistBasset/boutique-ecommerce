@@ -14,11 +14,14 @@ import { Link } from 'react-router-dom';
 
 import { UserDashboard } from './UserDashboard';
 
+import { useAuth } from '../context/AuthContext';
+
 const pages = ['products', 'orders'];
 
 export const Navbar = () => {
+  const { isAuthenticated, logout } = useAuth();
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+
   const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -121,7 +124,7 @@ export const Navbar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {isLoggedIn ? (
+            {isAuthenticated ? (
               <UserDashboard />
             ) : (
               <Link to="/login" style={{ color: 'white', textDecoration: 'none', fontSize: '0.8rem' }}>
