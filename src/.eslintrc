@@ -21,6 +21,7 @@
   },
   "rules": {
     "no-unused-vars": "off",
+    "no-unused-imports": "off",
     "react/react-in-jsx-scope": "off",
     "@typescript-eslint/no-unused-vars": 0
   }
