@@ -18,7 +18,7 @@ export const App = () => {
       <Navbar />
 
       <Routes>
-        <Route path="/" element={<Products />} />
+        <Route path="/" element={isAuthenticated ? <Products /> : <Navigate to="/login" />} />
         <Route path="/products" element={isAuthenticated ? <Products /> : <Navigate to="/login" />} />
         <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/products" />} />
         <Route path="/cart" element={isAuthenticated ? <Cart /> : <Navigate to="/login" />} />
